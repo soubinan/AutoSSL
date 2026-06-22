@@ -1,9 +1,6 @@
 import os
-from pkg_resources import parse_version
-from sys import version_info as py_version
 
 from setuptools import setup, find_packages
-from setuptools import __version__ as setuptools_version
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 
@@ -32,23 +29,6 @@ extras_require = {
 }
 # ability to install automatically all dependencies
 extras_require['all'] = list(set(value for sublist in extras_require.values() for value in sublist))
-
-
-def has_environment_marker_range_operators_support():
-    """Code extracted from 'pytest/setup.py'
-    https://github.com/pytest-dev/pytest/blob/7538680c/setup.py#L31
-
-    The first known release to support environment marker with range operators
-    it is 17.1, see: https://setuptools.readthedocs.io/en/latest/history.html#id113
-    """
-    return parse_version(setuptools_version) >= parse_version('17.1')
-
-
-# Compatibility with old version of setuptools
-if has_environment_marker_range_operators_support():
-    extras_require[':python_version<"3.4"'] = ['enum34', 'pathlib2']
-elif py_version < (3, 4):
-    install_requires.extend(['enum34', 'pathlib2'])
 
 
 setup(

@@ -68,7 +68,7 @@ class SslBlueprint(object):
                 yaml.dump(data=blueprint_content, stream=consolidated_blueprint_file)
 
             # list of servers where certificate must be deployed
-            self.servers = self.expand_servers(blueprint_content.get('servers', []),global_config_content)
+            self.servers = self.expand_servers(blueprint_content.get('servers', []), global_config_content)
 
         else:
             self.consolidated_blueprint_path = self.blueprint_path
