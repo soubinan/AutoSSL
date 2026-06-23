@@ -9,6 +9,7 @@ autossl.egg-info/
 .eggs/
 dist*/
 venv
+.venv
 .pytest_cache/
 docs/build
 build

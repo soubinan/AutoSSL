@@ -50,6 +50,7 @@ class SslManager(object):
         self._storage_api = None
         self._acme_storage_api = None
         self._ca_manager_api = None
+        self._server_expiration_date = None
 
     def __get_credentials_parameters(self, name, parameters):
         self.credentials[name] = credential.get_credentials(
@@ -217,6 +218,9 @@ class SslManager(object):
                         try:
                             server_api = self.get_server_api(server_parameters=server_config)
                             server_cert = server_api.get_certificate_information()
+
+                            if self._server_expiration_date is None:
+                                self._server_expiration_date = server_cert.expiration
 
                             # certificate definition changed
                             # or we have a more recent stored certificate to deploy
