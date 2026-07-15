@@ -1,6 +1,6 @@
 class Server(object):
 
-    def __init__(self, crt_name, deploy_full_chain=False, **kwargs):
+    def __init__(self, crt_name, deploy_full_chain=True, **kwargs):
         r"""Default server implementation describing interface of a server
         This is an abstract class, so each specialized method must be overridden in parent class.
 

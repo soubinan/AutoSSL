@@ -564,7 +564,7 @@ class SslManager(object):
 
             # ensure chain of trust is present if full deploy requested
             full_chain_deploy_requested = any(
-                    server_config.get('parameters', {}).get('deploy_full_chain', False)
+                    server_config.get('parameters', {}).get('deploy_full_chain', True)
                     for server_config in self.ssl_blueprint.servers
             )
             chain_of_trust = self.ssl_blueprint.get_chain_of_trust()

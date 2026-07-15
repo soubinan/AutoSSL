@@ -198,9 +198,17 @@ def test_deploy(ssl_manager):
     assert len(servers_to_update) == 0
 
     # ensure first server contain only server certificate
+    # Deprecated: we should not check for this as a requirement anymore,
+    #   as some servers may require full chain of trust to be deployed.
     crt_path_server_1 = util.Path(os.environ['AUTOSSL_CRT_PATH']).joinpath(ssl_manager.ssl_blueprint.name + '.crt')
-    assert crt_path_server_1.read_text().count('-----BEGIN CERTIFICATE-----') == 1
-    assert crt_path_server_1.read_bytes() == crt_path.read_bytes()
+    crt_server_1_content = crt_path_server_1.read_text()
+
+    assert 1 <= crt_server_1_content.count('-----BEGIN CERTIFICATE-----') <= 2
+    if crt_server_1_content.count('-----BEGIN CERTIFICATE-----') == 1:
+        assert crt_server_1_content.strip() == crt_path.read_text().strip()
+    else:
+        first_certificate = '-----BEGIN CERTIFICATE-----' + crt_server_1_content.split('-----BEGIN CERTIFICATE-----')[1]
+        assert first_certificate.strip() == crt_path.read_text().strip()
 
     # and 2nd server contains certificate with full chain of trust (2 certificates)
     crt_path_server_2 = util.Path(os.environ['AUTOSSL_CRT_PATH_2']).joinpath(ssl_manager.ssl_blueprint.name + '.crt')
